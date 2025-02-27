@@ -1,0 +1,52 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "A tool for collecting, processing, and displaying data from RSS feeds with support for automatic updates, filtering, and sorting.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build:dev": "webpack --env mode=development",
+    "build:prod": "webpack --env mode=production",
+    "start": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoniyorLatipov/fullstack-javascript-project-11.git"
+  },
+  "keywords": [
+    "RSS",
+    "Aggregator"
+  ],
+  "author": "Doniyor Latipov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoniyorLatipov/fullstack-javascript-project-11/issues"
+  },
+  "homepage": "https://github.com/DoniyorLatipov/fullstack-javascript-project-11#readme",
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/eslint-parser": "^7.26.8",
+    "@babel/preset-env": "^7.26.9",
+    "@eslint/js": "^9.18.0",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "cssnano": "^6.1.2",
+    "eslint": "^9.18.0",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^15.14.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
+    "postcss-loader": "^8.1.1",
+    "postcss-preset-env": "^10.1.5",
+    "sass": "^1.85.1",
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}

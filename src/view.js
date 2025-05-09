@@ -1,6 +1,6 @@
 import onChange from 'on-change';
 
-const setWatcher = (state, { input, output }) =>
+const setWatcher = (state, i18n, { input, output }) =>
   onChange(state, (path, value) => {
     // for input ui
     if (path === 'ui.input.state') {
@@ -11,7 +11,7 @@ const setWatcher = (state, { input, output }) =>
         case 'success':
           input.classList.add('is-valid');
           output.classList.add('text-success');
-          output.textContent = 'RSS успешно загружен';
+          output.textContent = i18n.t('input.success');
           break;
         case 'error':
           input.classList.add('is-invalid');

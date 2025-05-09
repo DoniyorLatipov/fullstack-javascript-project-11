@@ -1,7 +1,7 @@
-import { string } from 'yup';
+import * as yup from 'yup';
 import setWatcher from './view.js';
 
-export default async () => {
+export default async (i18n) => {
   const state = {
     ui: {
       input: {
@@ -18,12 +18,24 @@ export default async () => {
     output: document.querySelector('.feedback'),
   };
 
-  const watchedState = setWatcher(state, elements);
+  const watchedState = setWatcher(state, i18n, elements);
 
-  const schema = string()
-    .url('Ссылка должна быть валидным URL')
-    .required('Не должно быть пустым')
-    .test('unique-url', 'RSS уже существует', (value) => !watchedState.links.includes(value));
+  yup.setLocale({
+    string: {
+      url: () => ({ key: 'invalid' }),
+      required: () => ({ key: 'empty' }),
+    },
+  });
+
+  const schema = yup
+    .string()
+    .url()
+    .required()
+    .test(
+      'exists',
+      () => ({ key: 'exists' }),
+      (value) => !watchedState.links.includes(value),
+    );
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -46,7 +58,7 @@ export default async () => {
       })
       .catch((err) => {
         watchedState.ui.input.state = 'error';
-        watchedState.ui.input.error = err.message;
+        watchedState.ui.input.error = i18n.t(`input.error.${err.message.key}`);
       });
   });
 };

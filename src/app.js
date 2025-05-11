@@ -32,8 +32,8 @@ export default async (i18n) => {
 
     Promise.resolve(url)
       .then((url) => validateUrl(url, watchedState))
-      .then((url) => rssParser(url))
-      .then(({ url, data: { name, description, posts } }) => {
+      .then((url) => rssParser(url, idGen.generate()))
+      .then(({ link, title, id, description, posts }) => {
         watchedState.ui.input.state = 'success';
         watchedState.ui.input.error = '';
 
@@ -42,7 +42,7 @@ export default async (i18n) => {
         elements.input.focus();
 
         // adding link
-        watchedState.feeds.push({ name, description, link: url });
+        watchedState.feeds.push({ title, description, link, id });
         watchedState.posts.push(...posts);
       })
       .catch((err) => {

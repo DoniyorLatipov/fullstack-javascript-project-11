@@ -24,11 +24,11 @@ export default function rssParser(url, id) {
 
       const posts = items
         .filter((item) => item.nodeName === 'item')
-        .map((item) => {
-          const title = item.querySelector('title').textContent ?? 'Unknown post title';
-          const link = item.querySelector('link').textContent;
+        .map((post) => {
+          const title = post.querySelector('title').textContent ?? 'Unknown post title';
+          const link = post.querySelector('link').textContent;
           const description =
-            item.querySelector('description').textContent ?? 'Unknown post description';
+            post.querySelector('description').textContent ?? 'Unknown post description';
 
           return { title, link, description, feedId: id };
         });

@@ -28,7 +28,7 @@ const setWatcher = (state, i18n, { input, output, postsContainer, feedsContainer
       const feeds = value.map((feed) => {
         const feedElement = document.createElement('li');
         feedElement.classList.add('list-group-item', 'border-0', 'border-end-0');
-        feedElement.innerHTML = `<h3>${feed.name}</h3><p>${feed.description}</p>`;
+        feedElement.innerHTML = `<h3>${feed.title}</h3><p>${feed.description}</p>`;
         return feedElement;
       });
 

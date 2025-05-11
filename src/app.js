@@ -1,5 +1,6 @@
-import * as yup from 'yup';
 import setWatcher from './view.js';
+import { validateUrl } from './validation.js';
+import rssParser from './rssParser.js';
 
 export default async (i18n) => {
   const state = {
@@ -9,43 +10,30 @@ export default async (i18n) => {
         error: '',
       },
     },
-    links: [],
+    feeds: [],
+    posts: [],
   };
 
   const elements = {
     form: document.getElementById('rssForm'),
     input: document.getElementById('url-input'),
     output: document.querySelector('.feedback'),
+    postsContainer: document.querySelector('.posts'),
+    feedsContainer: document.querySelector('.feeds'),
   };
 
   const watchedState = setWatcher(state, i18n, elements);
-
-  yup.setLocale({
-    string: {
-      url: () => ({ key: 'invalid' }),
-      required: () => ({ key: 'empty' }),
-    },
-  });
-
-  const schema = yup
-    .string()
-    .url()
-    .required()
-    .test(
-      'exists',
-      () => ({ key: 'exists' }),
-      (value) => !watchedState.links.includes(value),
-    );
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const data = new FormData(e.target);
-    const value = data.get('url').trim();
+    const url = data.get('url').trim();
 
-    Promise.resolve(value)
-      .then((value) => schema.validate(value))
-      .then(() => {
+    Promise.resolve(url)
+      .then((url) => validateUrl(url, watchedState))
+      .then((url) => rssParser(url))
+      .then(({ url, data: { name, description, posts } }) => {
         watchedState.ui.input.state = 'success';
         watchedState.ui.input.error = '';
 
@@ -54,11 +42,14 @@ export default async (i18n) => {
         elements.input.focus();
 
         // adding link
-        watchedState.links.push(value);
+        watchedState.feeds.push({ name, description, link: url });
+        watchedState.posts.push(...posts);
       })
       .catch((err) => {
+        const key = err.isAxiosError ? 'network' : err.message.key;
+
         watchedState.ui.input.state = 'error';
-        watchedState.ui.input.error = i18n.t(`input.error.${err.message.key}`);
+        watchedState.ui.input.error = i18n.t(`input.error.${key}`);
       });
   });
 };

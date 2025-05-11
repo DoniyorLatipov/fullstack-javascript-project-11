@@ -2,6 +2,8 @@ import 'bootstrap';
 import './style.scss';
 
 import i18next from 'i18next';
+import ru from './localization/ru.js';
+
 import app from './app.js';
 
 const runApp = async () => {
@@ -10,18 +12,7 @@ const runApp = async () => {
     debug: true,
     lng: 'ru',
     resources: {
-      ru: {
-        translation: {
-          input: {
-            error: {
-              empty: 'Не должно быть пустым',
-              invalid: 'Ссылка должна быть валидным URL',
-              exists: 'RSS уже существует',
-            },
-            success: 'RSS успешно загружен',
-          },
-        },
-      },
+      ru,
     },
   });
 
